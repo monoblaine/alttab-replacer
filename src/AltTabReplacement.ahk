@@ -58,38 +58,38 @@ menuCount := 0
 WinGet windowList, List
 
 loop %windowList% {
-	winAhkId := windowList%A_Index%
+    winAhkId := windowList%A_Index%
 
-	WinGetTitle winTitle, ahk_id %winAhkId%
+    WinGetTitle winTitle, ahk_id %winAhkId%
 
-	if (winTitle = "") {
-		continue
+    if (winTitle = "") {
+        continue
     }
 
-	WinGetClass winClass, ahk_id %winAhkId%
+    WinGetClass winClass, ahk_id %winAhkId%
     WinGet, winStyle, Style, ahk_id %winAhkId%
 
     isUWP := winClass = "ApplicationFrameWindow"
 
-	if (isUWP) {
-		WinGetText, winText, ahk_id %winAhkId%
+    if (isUWP) {
+        WinGetText, winText, ahk_id %winAhkId%
 
-		if (winText = "" && !(winStyle = "0xB4CF0000")) {
+        if (winText = "" && !(winStyle = "0xB4CF0000")) {
             continue
-		}
-	}
+        }
+    }
 
-	if !(winStyle & 0xC00000) { ; if the window doesn't have a title bar
-		; If title not contains ...  ; add exceptions
+    if !(winStyle & 0xC00000) { ; if the window doesn't have a title bar
+        ; If title not contains ...  ; add exceptions
         continue
-	}
+    }
 
     menuCount++
 
     titleAndId := winTitle . " - " . winAhkId
     menuHandler := Func("Activate_Window").Bind(winAhkId)
 
-	Menu, altTabMenu, Insert, , %winTitle%, %menuHandler%
+    Menu, altTabMenu, Insert, , %winTitle%, %menuHandler%
 
     menuItemByPosAccessor := menuCount . "&"
 
@@ -97,7 +97,7 @@ loop %windowList% {
 
     if (isUWP = 0 && (menuIconHandle := LoadPicture(pathToProcess, "w32 Icon1", imageHandleType))) {
         ImageHandles.Push({ handle: menuIconHandle, handleType: imageHandleType })
-	    Menu, altTabMenu, Icon, %menuItemByPosAccessor%, hicon:*%menuIconHandle%, , 0
+        Menu, altTabMenu, Icon, %menuItemByPosAccessor%, hicon:*%menuIconHandle%, , 0
         menuIconHandle := ""
     }
     else if ((hWnd_coreWindow := GetChildWinByClass(winAhkId, "Windows.UI.Core.CoreWindow"))) {
@@ -125,20 +125,20 @@ Menu, altTabMenu, Show
 return
 
 Activate_Window(ahkId) {
-	WinActivate, ahk_id %ahkId%
+    WinActivate, ahk_id %ahkId%
 }
 
 GetChildWinByClass(hParent, childClass) {
-	hWnd := DllCall("GetWindow", Ptr, hParent, UInt, 5, Ptr) ; GW_CHILD=5
+    hWnd := DllCall("GetWindow", Ptr, hParent, UInt, 5, Ptr) ; GW_CHILD=5
 
-	Loop {
-		WinGetClass, winClass, ahk_id %hWnd%
+    Loop {
+        WinGetClass, winClass, ahk_id %hWnd%
 
-		if (winClass = childClass) {
-			return hWnd
-		}
+        if (winClass = childClass) {
+            return hWnd
+        }
 
         DllCall("CloseHandle", Ptr, hWnd)
-		hWnd := DllCall("GetWindow", Ptr, hWnd, UInt, 2, Ptr) ; GW_HWNDNEXT=2
-	} Until !hWnd
+        hWnd := DllCall("GetWindow", Ptr, hWnd, UInt, 2, Ptr) ; GW_HWNDNEXT=2
+    } Until !hWnd
 }
