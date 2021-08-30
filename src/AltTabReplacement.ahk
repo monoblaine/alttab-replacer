@@ -86,7 +86,6 @@ loop %windowList% {
 
     menuCount++
 
-    titleAndId := winTitle . " - " . winAhkId
     menuHandler := Func("Activate_Window").Bind(winAhkId)
 
     Menu, altTabMenu, Insert, , %winTitle%, %menuHandler%
