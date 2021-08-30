@@ -88,6 +88,10 @@ loop %windowList% {
 
     menuHandler := Func("Activate_Window").Bind(winAhkId)
 
+    if (StrLen(winTitle) > 150) {
+        winTitle := SubStr(winTitle, 1, 147) . "..."
+    }
+
     Menu, altTabMenu, Insert, , %winTitle%, %menuHandler%
 
     menuItemByPosAccessor := menuCount . "&"
