@@ -12,5 +12,5 @@ SetControlDelay, -1
 SendMode Input
 ;OPTIMIZATIONS END
 
-Sleep 1
+Sleep 10
 Send {Down 2}
