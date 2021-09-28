@@ -44,6 +44,8 @@ FreeImageHandle(byref handle, handleType) {
 }
 
 FreeMenuIconHandles() {
+    global ImageHandles
+
     for index, obj in ImageHandles {
         FreeImageHandle(obj.handle, obj.handleType)
     }
