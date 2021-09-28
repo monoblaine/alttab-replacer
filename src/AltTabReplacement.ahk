@@ -17,6 +17,7 @@ hModule := DllCall("LoadLibrary", Str, "..\lib\UWPIconExtractor.dll", Ptr)
 procHandle := DllCall("GetProcAddress", Ptr, hModule, AStr, "getFileName", Ptr)
 defaultImageHandle := LoadPicture(A_WinDir . "\System32\SHELL32.dll", "w32 Icon3", defaultImageHandleType)
 ImageHandles := []
+Busy := false
 
 OnExit, Exit
 return
@@ -49,6 +50,13 @@ FreeMenuIconHandles() {
 }
 
 ~LAlt & Tab::
+
+if (Busy) {
+    return
+}
+
+Busy := true
+
 Menu, altTabMenu, Add
 Menu, altTabMenu, deleteAll
 
@@ -125,6 +133,8 @@ else if (menuCount = 1) {
 }
 
 Menu, altTabMenu, Show
+
+Busy := false
 
 return
 
