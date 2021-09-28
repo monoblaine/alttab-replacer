@@ -13,5 +13,5 @@ SendMode Input
 Process, Priority,, H
 ;OPTIMIZATIONS END
 
-Sleep 10
+Sleep 5
 Send {Down 1}
