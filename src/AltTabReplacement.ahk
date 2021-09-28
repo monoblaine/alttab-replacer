@@ -10,6 +10,7 @@ SetDefaultMouseSpeed, 0
 SetWinDelay, -1
 SetControlDelay, -1
 SendMode Input
+Process, Priority,, H
 ;OPTIMIZATIONS END
 
 hModule := DllCall("LoadLibrary", Str, "..\lib\UWPIconExtractor.dll", Ptr)
